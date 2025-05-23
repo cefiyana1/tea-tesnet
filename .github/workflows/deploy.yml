@@ -5,16 +5,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Tea (Full Method)
+      
+      - name: Install Tea CLI
         run: |
-          /bin/bash -c "$(curl -fsSL https://tea.xyz/install.sh)"
+          curl -fsSL https://tea.xyz/install.sh | sh
           echo "$HOME/.tea/tea.xyz/bin" >> $GITHUB_PATH
           source ~/.bashrc
-      - name: Verify Installation
+          
+      - name: Debug Info
         run: |
+          echo "PATH: $PATH"
           which tea
           tea --version
+          
+      - name: Prepare Package
+        run: |
+          # Pastikan file tea.yml valid
+          cat tea.yml
+          [ -f tea.yml ] || exit 1
+          
       - name: Publish
-        run: tea publish
+        run: |
+          tea publish --verbose
         env:
           TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
