@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: teaxyz/setup-tea@v1
-      - run: tea publish
+      - run: |
+          # Install Tea CLI via curl
+          curl -fsS https://tea.xyz | sh
+          # Publish package
+          tea publish
         env:
           TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
