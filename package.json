@@ -1,0 +1,7 @@
+{
+  "name": "hello-tea-testnet",
+  "version": "1.0.0",
+  "description": "My Tea Testnet Package",
+  "main": "index.js",
+  "license": "MIT"
+}
