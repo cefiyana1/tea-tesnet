@@ -1,0 +1,26 @@
+name: Tea Final
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tea (Fixed Method)
+        run: |
+          # Install tanpa --yes (karena tidak support)
+          curl -fsS https://tea.xyz | sh
+          echo "$HOME/.tea/tea.xyz/bin" >> $GITHUB_PATH
+          sleep 5  # Beri waktu untuk instalasi
+
+      - name: Verify Installation
+        run: |
+          ls -la $HOME/.tea/tea.xyz/bin
+          $HOME/.tea/tea.xyz/bin/tea --version
+
+      - name: Publish Package
+        run: |
+          $HOME/.tea/tea.xyz/bin/tea publish -vv
+        env:
+          TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
