@@ -1,0 +1,20 @@
+name: Deploy to Tea
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Tea (Full Method)
+        run: |
+          /bin/bash -c "$(curl -fsSL https://tea.xyz/install.sh)"
+          echo "$HOME/.tea/tea.xyz/bin" >> $GITHUB_PATH
+          source ~/.bashrc
+      - name: Verify Installation
+        run: |
+          which tea
+          tea --version
+      - name: Publish
+        run: tea publish
+        env:
+          TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
