@@ -1,0 +1,25 @@
+name: Tea Publish
+on: [push]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tea Properly
+        run: |
+          curl -fsSL https://tea.xyz/install.sh | bash
+          echo "::add-path::$HOME/.tea/tea.xyz/bin"
+          echo "::set-env name=PATH::$PATH:$HOME/.tea/tea.xyz/bin"
+
+      - name: Verify Tea
+        run: |
+          which tea
+          tea --version
+
+      - name: Force Publish
+        run: |
+          tea -dv publish  # Debug mode
+        env:
+          TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
