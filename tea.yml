@@ -1,5 +1,5 @@
-name: tea-testnet-UNIQUE_Kanjut
+name: tea-testnet-$(date +%s)
 version: 0.1.0
-description: "My Tea Testnet Package"
+description: "Final Test"
 license: MIT
 repository: https://github.com/cefiyana1/tea-tesnet
