@@ -1,0 +1,28 @@
+name: Tea Deploy
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'  # Wajib!
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tea (New Method)
+        run: |
+          sh <(curl -fsS https://tea.xyz) --yes
+          echo "$HOME/.tea/tea.xyz/bin" >> $GITHUB_PATH
+          source ~/.bashrc
+
+      - name: Debug Tea
+        run: |
+          echo "PATH: $PATH"
+          which tea
+          tea --version
+
+      - name: Publish Package
+        run: |
+          tea publish --force
+        env:
+          TEA_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
