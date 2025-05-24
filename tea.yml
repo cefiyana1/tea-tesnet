@@ -1,5 +1,5 @@
 name: tea-testnet-$(date +%s)
 version: 0.1.0
-description: "Final Test"
+description: "Final Attempt"
 license: MIT
 repository: https://github.com/cefiyana1/tea-tesnet
