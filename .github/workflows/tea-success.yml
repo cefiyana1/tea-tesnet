@@ -1,0 +1,27 @@
+name: Tea Success
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tea (Absolute Method)
+        run: |
+          # Install ke path khusus
+          mkdir -p $HOME/tea-install
+          curl -fsSL https://tea.xyz > $HOME/tea-install/install.sh
+          bash $HOME/tea-install/install.sh
+          echo "$HOME/tea-install/.tea/tea.xyz/bin" >> $GITHUB_PATH
+
+      - name: Verify Tea
+        run: |
+          ls -la $HOME/tea-install/.tea/tea.xyz/bin
+          $HOME/tea-install/.tea/tea.xyz/bin/tea --version
+
+      - name: Publish
+        run: |
+          $HOME/tea-install/.tea/tea.xyz/bin/tea publish --debug
+        env:
+          TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
