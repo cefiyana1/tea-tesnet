@@ -1,0 +1,31 @@
+name: Tea Ultimate
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tea (Guaranteed Method)
+        run: |
+          # Install ke path absolut
+          mkdir -p /tmp/tea-install
+          cd /tmp/tea-install
+          curl -fsS https://tea.xyz -o install.sh
+          chmod +x install.sh
+          ./install.sh
+          echo "/tmp/tea-install/.tea/tea.xyz/bin" >> $GITHUB_PATH
+          echo "PATH=$PATH:/tmp/tea-install/.tea/tea.xyz/bin" >> $GITHUB_ENV
+
+      - name: Verify Installation
+        run: |
+          ls -la /tmp/tea-install/.tea/tea.xyz/bin
+          /tmp/tea-install/.tea/tea.xyz/bin/tea --version
+
+      - name: Force Publish
+        run: |
+          cd $GITHUB_WORKSPACE
+          /tmp/tea-install/.tea/tea.xyz/bin/tea publish -vv
+        env:
+          TEA_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
